@@ -1,4 +1,4 @@
-name: Automated SSH Deployment
+name: Self-Hosted Deployment
 
 on:
   push:
@@ -7,17 +7,16 @@ on:
 
 jobs:
   deploy:
-    runs-on: ubuntu-latest
+    runs-on: self-hosted
 
     steps:
-      - name: SSH Remote Commands to Pull Latest Code
-        uses: appleboy/ssh-action@v1.0.3
-        with:
-          host: ${{ secrets.SSH_HOST }}
-          username: ${{ secrets.SSH_USER }}
-          key: ${{ secrets.SSH_KEY }}
-          port: ${{ secrets.SSH_PORT }}
-          script: |
-            cd /var/www/devops-tugas2-2405551172
-            git fetch origin main
-            git reset --hard origin/main
+      - name: Pull Latest Code
+        run: |
+          set -e
+
+          cd /var/www/my-app
+
+          git fetch origin main
+          git reset --hard origin/main
+
+          echo "Deployment berhasil"
